@@ -4,12 +4,12 @@ function App() {
   return (
     <main className="min-h-screen bg-special-mainBg flex justify-center items-center">
       {/* container start */}
-      <div className="w-full max-w-sm">
+      <div className=" w-full max-w-sm">
         {/* logo start */}
         <div className="flex justify-center font-poppins tracking-wide text-primary text-4xl">
           <span className="font-bold">FINE</span>
           bank
-          <span className="font-bold">.IO</span>
+          <span className="font-bold">.IO)</span>
         </div>
         {/* logo end */}
         {/* form start */}
@@ -123,6 +123,12 @@ function App() {
         <div className="flex justify-center">
           <a className="text-primary text-sm font-bold">Create an account</a>
         </div>
+        {/* link end */}
+        {/* sign in with google start */}
+        <div></div>
+        {/* sign in with google end */}
+        {/* link start */}
+        <div></div>
         {/* link end */}
       </div>
       {/* container end */}
