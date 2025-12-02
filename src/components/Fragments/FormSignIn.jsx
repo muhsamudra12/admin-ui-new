@@ -21,7 +21,7 @@ function FormSignIn() {
           <div className="mb-6">
             <LabeledInput
               label="Password"
-              type="password"
+              type="Password"
               id="password"
               placeholder="************"
               name="password"
