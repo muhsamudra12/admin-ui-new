@@ -24,7 +24,7 @@ function FormSignUp() {
             />
           </div>
           <div className="mb-6">
-            <LabeledInput
+            <Labeledinput
               label="Email Address"
               id="email"
               type="email"
@@ -33,7 +33,7 @@ function FormSignUp() {
             />
           </div>
           <div className="mb-6">
-            <LabeledInput
+            <Labeledinput
               label="Password"
               id="password"
               type="password"
