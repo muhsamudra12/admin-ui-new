@@ -1,12 +1,40 @@
 import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SignInPage from "./pages/signIn";
 import SignUpPage from "./pages/signUp";
+import ErrorPage from "./Pages/error.jsx";
+import { Link } from "react-router-dom";
 
 function App() {
+  const myRouter = createBrowserRouter([
+    {
+      path: "/",
+      element: (				
+        <div className="flex justify-center items-center min-h-screen">
+          <Link to="/login" className="p-2 m-5 bg-primary text-white">
+            Login
+          </Link>
+          |
+          <Link to="/register" className="p-2 m-5 bg-primary text-white">
+            Register
+          </Link>
+        </div>
+        ),
+      errorElement: <ErrorPage/>,
+    },
+    {
+      path: "/login",
+      element: <SignInPage/>,
+    },
+    {
+      path: "/register",
+      element: <SignUpPage/>,
+    },
+  ]);
+
   return (
     <>
-      <SignInPage />
-      <SignUpPage />
+      <RouterProvider router={myRouter} />
     </>
   );
 }

@@ -1,24 +1,31 @@
 import React from "react";
-import LabeledInput from "../Elements/LabeledInput";
-import Checkbox from "../Elements/CheckBox";
+import Labeledinput from "../Elements/LabeledInput";
+import CheckBox from "../Elements/CheckBox";
 import Button from "../Elements/Button";
+import { Link } from "react-router-dom";
 
 function FormSignUp() {
   return (
     <>
+      <p className="mt-3 text-xl font-semibold text-gray-800 flex justify-center">
+        Create an account
+      </p>
+
       {/* form start */}
       <div className="mt-16">
         <form action="">
-          <LabeledInput
-            label="Name"
-            id="name"
-            type="name"
-            placeholder="Muhammad Samudra"
-            name="name"
-          />
-          <div className="mb-6 mt-6">
+          <div className="mb-6">
+            <Labeledinput
+              label="Name"
+              id="name"
+              type="name"
+              placeholder="Your Name"
+              name="name"
+            />
+          </div>
+          <div className="mb-6">
             <LabeledInput
-              label="Email address"
+              label="Email Address"
               id="email"
               type="email"
               placeholder="hello@example.com"
@@ -28,25 +35,28 @@ function FormSignUp() {
           <div className="mb-6">
             <LabeledInput
               label="Password"
-              type="password"
               id="password"
-              placeholder="************"
+              type="password"
+              placeholder="••••••••••"
               name="password"
             />
           </div>
-          <div className="mb-3">
-            <p className="text-xs text-gray-500 mb-6">
-              By continuing, you agree to our terms of service.
-            </p>
-          </div>
-          <Button>Sign Up</Button>
+
+          <p className="text-xs text-gray-500 mb-5 px-1">
+            By continuing, you agree to our{" "}
+            <span className="text-teal-600 font-semibold">
+              terms of service.
+            </span>
+          </p>
+
+          <Button>Sign up</Button>
         </form>
       </div>
       {/* form end */}
       {/* teks start */}
       <div className="my-9 px-7 flex flex-col justify-center items-center text-xs text-gray-03">
         <div className="border border-gray-05 w-full"></div>
-        <div class="px-2 bg-special-mainBg absolute"> or sign in with</div>
+        <div class="px-2 bg-special-mainBg absolute"> or sign up with</div>
       </div>
       {/* teks end */}
       {/* sign in with google start */}
@@ -103,9 +113,11 @@ function FormSignUp() {
       </div>
       {/* sign in with google end */}
       {/* link start */}
-      <div className="flex justify-center">
-        <p className="text-gray-400">Already have an account?</p>
-        <a className="text-primary  font-bold">Sign in here</a>
+      <div className="flex justify-center mt-4 text-sm">
+        <span className="text-gray-500">Already have an account? </span>
+        <Link to="/login" className="text-primary ml-1 font-bold">
+          Sign in here
+        </Link>
       </div>
       {/* link end */}
     </>

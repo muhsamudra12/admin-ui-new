@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Children } from 'react'
 import Logo from "../Elements/Logo";
 
 function AuthLayout(props) {

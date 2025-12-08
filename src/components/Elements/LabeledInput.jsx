@@ -2,69 +2,74 @@ import React, { useState } from "react";
 
 function LabeledInput(props) {
   const { label, id, type, ...rest } = props;
-
   const [showPassword, setShowPassword] = useState(false);
 
-  const inputType =
-    type === "password" ? (showPassword ? "text" : "password") : type;
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const EyeIcon = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-5 w-5"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      {showPassword ? (
-        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z" />
-      ) : (
-        <>
-          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-7-10-7a1.86 1.86 0 0 1 2.68-2.68" />
-          <path d="M6.06 6.06A10.07 10.07 0 0 0 12 4c7 0 10 7 10 7a1.86 1.86 0 0 0-2.68-2.68" />
-          <path d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
-          <line x1="1" y1="1" x2="23" y2="23" />
-        </>
-      )}
-    </svg>
-  );
+  const isPassword = type === "password";
 
   return (
-    <>
+    <div className="w-full">
       <label htmlFor={id} className="block text-sm mb-2">
         {label}
       </label>
-
+      
       <div className="relative">
         <input
-          className={`py-3 pl-4 text-sm rounded-md w-full bg-special-mainBg border border-gray-03 text-gray-01 focus:border-black focus:outline-none focus:ring-0 ${
-            type === "password" ? "pr-10" : ""
-          }`}
           id={id}
-          type={inputType}
+          type={isPassword ? (showPassword ? "text" : "password") : type}
+          className="py-3 pl-4 pr-10 text-sm rounded-md w-full bg-special-mainBg border border-gray-03 text-gray-01 focus:border-black focus:outline-none"
           {...rest}
         />
 
-        {type === "password" && (
+        {/* ICON MATA */}
+        {isPassword && (
           <button
             type="button"
-            onClick={togglePasswordVisibility}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 focus:outline-none"
-            aria-label={showPassword ? "Hide password" : "Show password"}
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
           >
-            {EyeIcon}
+            {showPassword ? (
+              //IconBuka
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.64 0 8.577 3.01 9.964 7.183.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.64 0-8.577-3.01-9.964-7.183z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+            ) : (
+              //IconTutup
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M3 3l18 18M10.7 10.7A3 3 0 0113.3 13.3M9.88 9.88a3 3 0 104.24 4.24M6.24 6.24A9.973 9.973 0 003 12c1.387 4.173 5.324 7.183 9.964 7.183 2.033 0 3.946-.52 5.618-1.427M17.76 17.76A9.973 9.973 0 0021 12c-.553-1.665-1.47-3.156-2.62-4.37"
+                />
+              </svg>
+            )}
           </button>
         )}
       </div>
-    </>
+    </div>
   );
 }
-
 export default LabeledInput;
