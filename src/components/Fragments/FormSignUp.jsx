@@ -1,5 +1,5 @@
 import React from "react";
-import Labeledinput from "../Elements/LabeledInput";
+import LabeledInput from "../Elements/LabeledInput";
 import CheckBox from "../Elements/CheckBox";
 import Button from "../Elements/Button";
 import { Link } from "react-router-dom";
@@ -15,7 +15,7 @@ function FormSignUp() {
       <div className="mt-16">
         <form action="">
           <div className="mb-6">
-            <Labeledinput
+            <LabeledInput
               label="Name"
               id="name"
               type="name"
@@ -24,7 +24,7 @@ function FormSignUp() {
             />
           </div>
           <div className="mb-6">
-            <Labeledinput
+            <LabeledInput
               label="Email Address"
               id="email"
               type="email"
@@ -33,7 +33,7 @@ function FormSignUp() {
             />
           </div>
           <div className="mb-6">
-            <Labeledinput
+            <LabeledInput
               label="Password"
               id="password"
               type="password"
