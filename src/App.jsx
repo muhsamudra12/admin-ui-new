@@ -1,46 +1,29 @@
 import "./App.css";
-import SignInPage from "./pages/SignIn.jsx";
-import SignUpPage from "./pages/SignUp.jsx";
+import SignInPage from "./pages/signIn.jsx";
+import SignUpPage from "./pages/signUp.jsx";
 import ErrorPage from "./pages/error.jsx";
 import DashboardPage from "./pages/dashboard.jsx";
-import BalancePage from "./pages/balance.jsx"
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Link } from "react-router-dom";
-
+import BalancePage from "./pages/balance.jsx";
+import { createBrowserRouter, RouterProvider, Link } from "react-router-dom";
 
 function App() {
   const myRouter = createBrowserRouter([
-    /*{
-      path: "/",
-      element: (				
-        <div className="flex justify-center items-center min-h-screen">
-          <Link to="/login" className="p-2 m-5 bg-primary text-white">
-            Login
-          </Link>
-          |
-          <Link to="/register" className="p-2 m-5 bg-primary text-white">
-            Register
-          </Link>
-        </div>
-        ),
-      errorElement: <ErrorPage/>,
-    },*/
     {
       path: "/",
-      element: <DashboardPage/>,
-      errorElement: <ErrorPage/>,
+      element: <DashboardPage />,
+      errorElement: <ErrorPage />,
     },
     {
       path: "/login",
-      element: <SignInPage/>,
+      element: <SignInPage />,
     },
     {
       path: "/register",
-      element: <SignUpPage/>,
+      element: <SignUpPage />,
     },
     {
       path: "/balance",
-      element: <BalancePage/>,
+      element: <BalancePage />,
     },
   ]);
 
