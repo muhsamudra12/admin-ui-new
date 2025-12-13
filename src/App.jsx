@@ -1,13 +1,16 @@
 import "./App.css";
+import SignInPage from "./pages/SignIn.jsx";
+import SignUpPage from "./pages/SignUp.jsx";
+import ErrorPage from "./pages/error.jsx";
+import DashboardPage from "./pages/dashboard.jsx";
+import BalancePage from "./pages/balance.jsx"
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import SignInPage from "./pages/signIn";
-import SignUpPage from "./pages/signUp";
-import ErrorPage from "./Pages/error.jsx";
 import { Link } from "react-router-dom";
+
 
 function App() {
   const myRouter = createBrowserRouter([
-    {
+    /*{
       path: "/",
       element: (				
         <div className="flex justify-center items-center min-h-screen">
@@ -21,6 +24,11 @@ function App() {
         </div>
         ),
       errorElement: <ErrorPage/>,
+    },*/
+    {
+      path: "/",
+      element: <DashboardPage/>,
+      errorElement: <ErrorPage/>,
     },
     {
       path: "/login",
@@ -29,6 +37,10 @@ function App() {
     {
       path: "/register",
       element: <SignUpPage/>,
+    },
+    {
+      path: "/balance",
+      element: <BalancePage/>,
     },
   ]);
 

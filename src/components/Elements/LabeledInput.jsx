@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Input from "./Input";
 
 function LabeledInput(props) {
   const { label, id, type, ...rest } = props;
@@ -11,7 +12,8 @@ function LabeledInput(props) {
       <label htmlFor={id} className="block text-sm mb-2">
         {label}
       </label>
-      
+      <Input id={id} {...rest} />
+
       <div className="relative">
         <input
           id={id}
@@ -72,4 +74,5 @@ function LabeledInput(props) {
     </div>
   );
 }
+
 export default LabeledInput;
