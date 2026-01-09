@@ -1,116 +1,142 @@
-import React, { useState } from "react";
+import React from "react";
 import LabeledInput from "../Elements/LabeledInput";
 import CheckBox from "../Elements/CheckBox";
 import Button from "../Elements/Button";
 import { Link } from "react-router-dom";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
+
+// Validasi Form
+const SignInSchema = Yup.object().shape({
+  email: Yup.string().email("Email tidak valid").required("Email wajib diisi"),
+  password: Yup.string().required("Password wajib diisi"),
+});
 
 function FormSignIn({ onSubmit }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(email, password);
-  };
-
   return (
     <div className="mt-16">
-      <form onSubmit={handleSubmit}>
-        <div className="mb-6">
-          <LabeledInput
-            label="Email Address"
-            id="email"
-            type="email"
-            placeholder="hello@example.com"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="mb-6">
-          <LabeledInput
-            label="Password"
-            id="password"
-            type="password"
-            placeholder="••••••••••"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div className="mb-3">
-          <CheckBox
-            label="Keep me signed in"
-            id="status"
-            type="checkbox"
-            name="status"
-          />
-        </div>
-        <Button variant="bg-primary w-full text-white py-3" type="submit">
-          Login
-        </Button>
-      </form>
+      <Formik
+        initialValues={{
+          email: "",
+          password: "",
+          status: false,
+        }}
+        validationSchema={SignInSchema}
+        onSubmit={async (values, { setSubmitting }) => {
+          // Memanggil fungsi onSubmit dari props (dari signIn.jsx)
+          await onSubmit(values.email, values.password);
+          setSubmitting(false);
+        }}
+      >
+        {({ isSubmitting, errors, touched }) => (
+          <Form>
+            {/* EMAIL */}
+            <div className="mb-6">
+              <Field name="email">
+                {({ field }) => (
+                  <LabeledInput
+                    {...field}
+                    id="email"
+                    type="email"
+                    label="Email Address"
+                    placeholder="hello@example.com"
+                  />
+                )}
+              </Field>
+              {errors.email && touched.email ? (
+                <div className="text-red-500 text-xs mt-1">{errors.email}</div>
+              ) : null}
+            </div>
+
+            {/* PASSWORD */}
+            <div className="mb-6">
+              <Field name="password">
+                {({ field }) => (
+                  <LabeledInput
+                    {...field}
+                    id="password"
+                    type="password"
+                    label="Password"
+                    placeholder="••••••••••"
+                  />
+                )}
+              </Field>
+              {errors.password && touched.password ? (
+                <div className="text-red-500 text-xs mt-1">
+                  {errors.password}
+                </div>
+              ) : null}
+            </div>
+
+            {/* CHECKBOX */}
+            <div className="mb-3">
+              <Field name="status" type="checkbox">
+                {({ field }) => (
+                  <CheckBox {...field} label="Keep me signed in" id="status" />
+                )}
+              </Field>
+            </div>
+
+            {/* BUTTON LOGIN */}
+            <Button
+              variant={`w-full text-white py-3 ${
+                isSubmitting ? "bg-gray-400" : "bg-primary"
+              }`}
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Logging in..." : "Login"}
+            </Button>
+          </Form>
+        )}
+      </Formik>
 
       {/* Divider */}
       <div className="flex items-center justify-center my-6">
         <div className="border-t border-gray-300 flex-grow"></div>
-        <span className="px-3 text-gray-400 text-sm font-medium">or</span>
+        <span className="px-3 text-gray-400 text-sm">or</span>
         <div className="border-t border-gray-300 flex-grow"></div>
       </div>
 
-      {/* sign in with google start */}
-      <div className="mb-8">
-        <Button type="button" variant="secondary">
-          <span className="flex items-center justify-center">
-            <svg
-              class="h-6 w-6 mr-2"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              width="800px"
-              height="800px"
-              viewBox="-0.5 0 48 48"
-              version="1.1"
-            >
-              <title>Google-color</title> <desc>Created with Sketch.</desc>
-              <defs> </defs>
-              <g
-                id="Icons"
-                stroke="none"
-                stroke-width="1"
-                fill="none"
-                fill-rule="evenodd"
-              >
-                <g id="Color-" transform="translate(-401.000000, -860.000000)">
-                  <g id="Google" transform="translate(401.000000, 860.000000)">
-                    <path
-                      d="M9.82727273,24 C9.82727273,22.4757333 10.0804318,21.0144 10.5322727,19.6437333 L2.62345455,13.6042667 C1.08206818,16.7338667 0.213636364,20.2602667 0.213636364,24 C0.213636364,27.7365333 1.081,31.2608 2.62025,34.3882667 L10.5247955,28.3370667 C10.0772273,26.9728 9.82727273,25.5168 9.82727273,24"
-                      id="Fill-1"
-                      fill="#FBBC05"
-                    ></path>
-                    <path
-                      d="M23.7136364,10.1333333 C27.025,10.1333333 30.0159091,11.3066667 32.3659091,13.2266667 L39.2022727,6.4 C35.0363636,2.77333333 29.6954545,0.533333333 23.7136364,0.533333333 C14.4268636,0.533333333 6.44540909,5.84426667 2.62345455,13.6042667 L10.5322727,19.6437333 C12.3545909,14.112 17.5491591,10.1333333 23.7136364,10.1333333"
-                      id="Fill-2"
-                      fill="#EB4335"
-                    ></path>
-                    <path
-                      d="M23.7136364,37.8666667 C17.5491591,37.8666667 12.3545909,33.888 10.5322727,28.3562667 L2.62345455,34.3946667 C6.44540909,42.1557333 14.4268636,47.4666667 23.7136364,47.4666667 C29.4455,47.4666667 34.9177955,45.4314667 39.0249545,41.6181333 L31.5177727,35.8144 C29.3995682,37.1488 26.7323182,37.8666667 23.7136364,37.8666667"
-                      id="Fill-3"
-                      fill="#34A853"
-                    ></path>
-                    <path
-                      d="M46.1454545,24 C46.1454545,22.6133333 45.9318182,21.12 45.6113636,19.7333333 L23.7136364,19.7333333 L23.7136364,28.8 L36.3181818,28.8 C35.6879545,31.8912 33.9724545,34.2677333 31.5177727,35.8144 L39.0249545,41.6181333 C43.3393409,37.6138667 46.1454545,31.6490667 46.1454545,24"
-                      id="Fill-4"
-                      fill="#4285F4"
-                    ></path>
-                  </g>
-                </g>
-              </g>
-            </svg>
-            Continue with Google
-          </span>
-        </Button>
-      </div>
-      {/* sign in with google end */}
+      {/* Tombol Google (Warna & Logo Persis FormSignUp) */}
+      <button
+        type="button"
+        className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 py-3 rounded-md hover:bg-gray-50 transition-all shadow-sm"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 48 48"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g
+            id="Shapes"
+            stroke="none"
+            strokeWidth="1"
+            fill="none"
+            fillRule="evenodd"
+          >
+            <path
+              d="M46.1454545,24.5454545 C46.1454545,22.8218182 45.9927273,21.1636364 45.7090909,19.5709091 L24,19.5709091 L24,29.0018182 L36.4145455,29.0018182 C35.8745455,31.9036364 34.2381818,34.3636364 31.7672727,36.0272727 L31.7672727,42.2181818 L39.3054545,42.2181818 C43.7181818,38.1581818 46.2545455,32.1272727 46.2545455,24.5454545"
+              fill="#4285F4"
+            ></path>
+            <path
+              d="M23.7136364,37.8666667 C17.5491591,37.8666667 12.3545909,33.888 10.5322727,28.3562667 L2.62345455,34.3946667 C6.44540909,42.1557333 14.4268636,47.4666667 23.7136364,47.4666667 C29.4455,47.4666667 34.9177955,45.4314667 39.0249545,41.6181333 L31.5177727,35.8144 C29.3995682,37.1488 26.7323182,37.8666667 23.7136364,37.8666667"
+              fill="#34A853"
+            ></path>
+            <path
+              d="M10.4618182,27.5018182 C10.0036364,26.1381818 9.74181818,24.6818182 9.74181818,23.1636364 C9.74181818,21.6454545 10.0036364,20.1890909 10.4618182,18.8254545 L2.7,12.8090909 C1.15636364,15.8836364 0.272727273,19.3418182 0.272727273,23.0054545 C0.272727273,26.6690909 1.15636364,30.1272727 2.7,33.2018182 L10.4618182,27.5018182 Z"
+              fill="#FBBC05"
+            ></path>
+            <path
+              d="M24,9.15272727 C27.3818182,9.15272727 30.4145455,10.3145455 32.8036364,12.5945455 L39.7309091,5.66727273 C35.5309091,1.75636364 30.3163636,-0.447272727 24,-0.447272727 C15.1854545,-0.447272727 7.64727273,4.60363636 3.79636364,11.8363636 L11.5581818,17.8527273 C13.3745455,12.4090909 18.4581818,8.35636364 24,8.35636364"
+              fill="#EA4335"
+            ></path>
+          </g>
+        </svg>
+        <span className="text-gray-700 font-semibold">Sign in with Google</span>
+      </button>
 
       {/* Navigasi ke Register */}
       <p className="mt-8 text-center text-sm text-gray-600">

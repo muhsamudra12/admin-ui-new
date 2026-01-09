@@ -6,6 +6,7 @@ import CardUpcomingBill from "../components/Fragments/CardUpcomingBill";
 import CardRecentTransaction from "../components/Fragments/CardRecentTransaction";
 import CardStatistic from "../components/Fragments/CardStatistic";
 import CardExpenseBreakdown from "../components/Fragments/CardExpenseBreakdown";
+import AppSnackbar from "../components/Elements/AppSnackbar";
 
 import {
   balances,
@@ -22,6 +23,16 @@ import { AuthContext } from "../context/authContext";
 function dashboard() {
   const { logout } = useContext(AuthContext);
 
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
+  const handleCloseSnackbar = () => {
+    setSnackbar((prev) => ({ ...prev, open: false }));
+  };
+
   const [goals, setGoals] = useState({ present_amount: 0, target_amount: 0 });
 
   const fetchGoals = async () => {
@@ -29,7 +40,11 @@ function dashboard() {
       const data = await goalService();
       setGoals(data);
     } catch (err) {
-      console.error("Gagal mengambil data goals:", err);
+      setSnackbar({
+        open: true,
+        message: "Gagal mengambil data goals",
+        severity: "error",
+      });
 
       if (err.response?.status === 401) {
         logout();
@@ -64,6 +79,15 @@ function dashboard() {
           <CardExpenseBreakdown data={expensesBreakdowns} />
         </div>
       </div>
+      {/* Komponen Snackbar untuk menampilkan error */}
+      {snackbar.open && (
+        <AppSnackbar
+          open={snackbar.open}
+          message={snackbar.message}
+          severity={snackbar.severity}
+          onClose={handleCloseSnackbar}
+        />
+      )}
     </MainLayout>
   );
 }
