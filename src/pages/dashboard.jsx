@@ -13,14 +13,13 @@ import {
   bills,
   expensesBreakdowns,
   expensesStatistics,
-  goals as staticGoals,
   transactions,
 } from "../data";
 
 import { goalService } from "../services/dataService";
 import { AuthContext } from "../context/authContext";
 
-function dashboard() {
+function Dashboard() {
   const { logout } = useContext(AuthContext);
 
   const [snackbar, setSnackbar] = useState({
@@ -29,26 +28,34 @@ function dashboard() {
     severity: "success",
   });
 
+  // Inisialisasi dengan objek (bukan null) agar loading spinner hilang
+  const [goals, setGoals] = useState({ present_amount: 0, target_amount: 0 });
+
   const handleCloseSnackbar = () => {
     setSnackbar((prev) => ({ ...prev, open: false }));
   };
 
-  const [goals, setGoals] = useState({ present_amount: 0, target_amount: 0 });
-
   const fetchGoals = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
     try {
       const data = await goalService();
-      setGoals(data);
-    } catch (err) {
-      setSnackbar({
-        open: true,
-        message: "Gagal mengambil data goals",
-        severity: "error",
-      });
-
-      if (err.response?.status === 401) {
-        logout();
+      if (data) {
+        setGoals({
+          present_amount: data.present_amount || 0,
+          target_amount: data.target_amount || 0,
+        });
       }
+    } catch (err) {
+      if (err.status !== 401) {
+        setSnackbar({
+          open: true,
+          message: "Gagal mengambil data goals",
+          severity: "error",
+        });
+      }
+      if (err.status === 401) logout();
     }
   };
 
@@ -63,7 +70,6 @@ function dashboard() {
           <CardBalance data={balances} />
         </div>
         <div className="sm:col-span-4">
-          {/* Menggunakan data dari API (state goals) */}
           <CardGoal data={goals} />
         </div>
         <div className="sm:col-span-4">
@@ -79,7 +85,7 @@ function dashboard() {
           <CardExpenseBreakdown data={expensesBreakdowns} />
         </div>
       </div>
-      {/* Komponen Snackbar untuk menampilkan error */}
+
       {snackbar.open && (
         <AppSnackbar
           open={snackbar.open}
@@ -92,4 +98,4 @@ function dashboard() {
   );
 }
 
-export default dashboard;
+export default Dashboard;

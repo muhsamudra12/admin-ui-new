@@ -6,11 +6,16 @@ import Icon from "../Elements/Icon";
 import { NavLink } from "react-router-dom";
 import { ThemeContext } from "../../context/themeContext";
 import { AuthContext, logoutService } from "../../context/authContext";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function MainLayout(props) {
   const { children } = props;
   const { theme, setTheme } = useContext(ThemeContext);
   const { user, logout } = useContext(AuthContext);
+
+  // State untuk Backdrop
+  const [open, setOpen] = useState(false);
 
   const username = user?.name || "User";
 
@@ -38,20 +43,34 @@ function MainLayout(props) {
   ];
 
   const handleLogout = async () => {
+    setOpen(true); // Tampilkan Backdrop
     try {
       await logoutService();
       logout();
     } catch (err) {
       console.error(err);
-      if (err.status === 401) {
-        logout();
-      }
+      if (err.status === 401) logout();
+    } finally {
+      setOpen(false); // Sembunyikan jika gagal
     }
   };
 
   return (
     <div className={`flex min-h-screen ${theme.name}`}>
-      {/* Sidebar */}
+      {/* IMPLEMENTASI BACKDROP SOAL 4 */}
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+      >
+        <div className="flex flex-col items-center">
+          <CircularProgress color="inherit" size={60} />
+          {/* Tulisan Logging Out tegak/normal sesuai permintaan */}
+          <p className="mt-4 text-xl font-bold tracking-widest">
+            Logging Out...
+          </p>
+        </div>
+      </Backdrop>
+
       <aside className="bg-defaultBlack w-28 sm:w-64 text-special-bg2 flex flex-col justify-between px-7 py-12">
         <div>
           <Logo />
@@ -70,8 +89,6 @@ function MainLayout(props) {
                 <div className="hidden sm:block">{item.name}</div>
               </NavLink>
             ))}
-
-            {/* --- LETAK PILIHAN WARNA DI SINI (Tepat di bawah Setting) --- */}
             <div className="flex justify-start mt-8 mb-4 gap-3 px-4">
               {themes.map((t) => (
                 <button
@@ -85,12 +102,9 @@ function MainLayout(props) {
                 />
               ))}
             </div>
-            {/* --------------------------------------------------------- */}
           </nav>
         </div>
-
         <div>
-          {/* Bagian Bawah hanya Logout dan Profil */}
           <div onClick={handleLogout} className="cursor-pointer">
             <div className="flex items-center text-white py-3 px-4 rounded-md mb-4 hover:bg-special-bg3">
               <div className="mx-auto sm:max-0 text-primary">
@@ -99,9 +113,7 @@ function MainLayout(props) {
               <div className="ms-3 hidden sm:block">Logout</div>
             </div>
           </div>
-
           <div className="border my-10 border-b-special-bg"></div>
-
           <div className="flex justify-between items-center">
             <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-black font-bold">
               {username.charAt(0)}
@@ -117,7 +129,6 @@ function MainLayout(props) {
         </div>
       </aside>
 
-      {/* Main Content */}
       <div className="bg-special-mainBg flex-1 flex flex-col">
         <header className="border-b border-gray-05 px-6 py-7 flex justify-between items-center">
           <div className="flex items-center">

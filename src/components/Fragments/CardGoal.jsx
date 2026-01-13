@@ -10,7 +10,7 @@ function CardGoal(props) {
   // Logika untuk menghitung nilai chart (persentase)
   // Menghindari pembagian dengan nol jika data belum siap
   const chartValue =
-    data && data.target_amount && data.target_amount !== 0
+    data && data.target_amount && data.target_amount > 0
       ? (data.present_amount / data.target_amount) * 100
       : 0;
 
@@ -71,13 +71,17 @@ function CardGoal(props) {
     <Card
       title="Goals"
       desc={
-        // Jika data kosong atau sedang loading, tampilkan spinner
+        // Jika data sedang loading (kosong), tampilkan spinner dengan teks "Loading"
         !data || Object.keys(data).length === 0 ? (
           <div className="flex flex-col justify-center items-center h-full min-h-[200px] text-primary">
             <CircularProgress color="inherit" size={50} />
-            <span className="mt-2 text-sm">Loading Data...</span>
+            {/* Ganti teks di bawah ini agar tidak membingungkan */}
+            <span className="mt-2 text-sm text-gray-500">
+              Loading Goal Data...
+            </span>
           </div>
         ) : (
+          // Jika data sudah ada, tampilkan chart
           chartData
         )
       }

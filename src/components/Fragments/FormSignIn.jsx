@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
-// Validasi Form
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email("Email tidak valid").required("Email wajib diisi"),
   password: Yup.string().required("Password wajib diisi"),
@@ -16,59 +15,49 @@ function FormSignIn({ onSubmit }) {
   return (
     <div className="mt-16">
       <Formik
-        initialValues={{
-          email: "",
-          password: "",
-          status: false,
-        }}
+        initialValues={{ email: "", password: "", status: false }}
         validationSchema={SignInSchema}
         onSubmit={async (values, { setSubmitting }) => {
-          // Memanggil fungsi onSubmit dari props (dari signIn.jsx)
           await onSubmit(values.email, values.password);
           setSubmitting(false);
         }}
       >
         {({ isSubmitting, errors, touched }) => (
           <Form>
-            {/* EMAIL */}
             <div className="mb-6">
               <Field name="email">
                 {({ field }) => (
                   <LabeledInput
                     {...field}
+                    label="Email Address"
                     id="email"
                     type="email"
-                    label="Email Address"
                     placeholder="hello@example.com"
                   />
                 )}
               </Field>
-              {errors.email && touched.email ? (
+              {errors.email && touched.email && (
                 <div className="text-red-500 text-xs mt-1">{errors.email}</div>
-              ) : null}
+              )}
             </div>
-
-            {/* PASSWORD */}
             <div className="mb-6">
               <Field name="password">
                 {({ field }) => (
                   <LabeledInput
                     {...field}
+                    label="Password"
                     id="password"
                     type="password"
-                    label="Password"
                     placeholder="••••••••••"
                   />
                 )}
               </Field>
-              {errors.password && touched.password ? (
+              {errors.password && touched.password && (
                 <div className="text-red-500 text-xs mt-1">
                   {errors.password}
                 </div>
-              ) : null}
+              )}
             </div>
-
-            {/* CHECKBOX */}
             <div className="mb-3">
               <Field name="status" type="checkbox">
                 {({ field }) => (
@@ -76,8 +65,6 @@ function FormSignIn({ onSubmit }) {
                 )}
               </Field>
             </div>
-
-            {/* BUTTON LOGIN */}
             <Button
               variant={`w-full text-white py-3 ${
                 isSubmitting ? "bg-gray-400" : "bg-primary"
@@ -85,60 +72,43 @@ function FormSignIn({ onSubmit }) {
               type="submit"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Logging in..." : "Login"}
+              {isSubmitting ? "Loading.." : "Login"}
             </Button>
           </Form>
         )}
       </Formik>
 
-      {/* Divider */}
       <div className="flex items-center justify-center my-6">
         <div className="border-t border-gray-300 flex-grow"></div>
         <span className="px-3 text-gray-400 text-sm">or</span>
         <div className="border-t border-gray-300 flex-grow"></div>
       </div>
 
-      {/* Tombol Google (Warna & Logo Persis FormSignUp) */}
       <button
         type="button"
-        className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 py-3 rounded-md hover:bg-gray-50 transition-all shadow-sm"
+        className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 py-3 rounded-md hover:bg-gray-50 transition-all"
       >
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 48 48"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g
-            id="Shapes"
-            stroke="none"
-            strokeWidth="1"
-            fill="none"
-            fillRule="evenodd"
-          >
-            <path
-              d="M46.1454545,24.5454545 C46.1454545,22.8218182 45.9927273,21.1636364 45.7090909,19.5709091 L24,19.5709091 L24,29.0018182 L36.4145455,29.0018182 C35.8745455,31.9036364 34.2381818,34.3636364 31.7672727,36.0272727 L31.7672727,42.2181818 L39.3054545,42.2181818 C43.7181818,38.1581818 46.2545455,32.1272727 46.2545455,24.5454545"
-              fill="#4285F4"
-            ></path>
-            <path
-              d="M23.7136364,37.8666667 C17.5491591,37.8666667 12.3545909,33.888 10.5322727,28.3562667 L2.62345455,34.3946667 C6.44540909,42.1557333 14.4268636,47.4666667 23.7136364,47.4666667 C29.4455,47.4666667 34.9177955,45.4314667 39.0249545,41.6181333 L31.5177727,35.8144 C29.3995682,37.1488 26.7323182,37.8666667 23.7136364,37.8666667"
-              fill="#34A853"
-            ></path>
-            <path
-              d="M10.4618182,27.5018182 C10.0036364,26.1381818 9.74181818,24.6818182 9.74181818,23.1636364 C9.74181818,21.6454545 10.0036364,20.1890909 10.4618182,18.8254545 L2.7,12.8090909 C1.15636364,15.8836364 0.272727273,19.3418182 0.272727273,23.0054545 C0.272727273,26.6690909 1.15636364,30.1272727 2.7,33.2018182 L10.4618182,27.5018182 Z"
-              fill="#FBBC05"
-            ></path>
-            <path
-              d="M24,9.15272727 C27.3818182,9.15272727 30.4145455,10.3145455 32.8036364,12.5945455 L39.7309091,5.66727273 C35.5309091,1.75636364 30.3163636,-0.447272727 24,-0.447272727 C15.1854545,-0.447272727 7.64727273,4.60363636 3.79636364,11.8363636 L11.5581818,17.8527273 C13.3745455,12.4090909 18.4581818,8.35636364 24,8.35636364"
-              fill="#EA4335"
-            ></path>
-          </g>
+        <svg width="20" height="20" viewBox="0 0 48 48">
+          <path
+            d="M46.1,24.5c0-1.7-0.1-3.4-0.4-5H24v9.4h12.4c-0.5,2.9-2.2,5.4-4.6,7l0,6.2h7.5C43.7,38.2,46.3,32.1,46.3,24.5z"
+            fill="#4285F4"
+          />
+          <path
+            d="M23.7,47.5c6.3,0,11.6-2.1,15.5-5.7l-7.5-6.2c-2.1,1.4-4.8,2.3-7.8,2.3c-6,0-11-4-12.8-9.5l-7.9,6C7,42.2,14.7,47.5,23.7,47.5z"
+            fill="#34A853"
+          />
+          <path
+            d="M10.9,28.4c-0.5-1.4-0.7-2.9-0.7-4.4s0.2-3,0.7-4.4l-7.9-6C1.4,16.7,0.5,19.8,0.5,23s0.9,6.3,2.5,9.4L10.9,28.4z"
+            fill="#FBBC05"
+          />
+          <path
+            d="M23.7,9.2c3.4,0,6.4,1.2,8.8,3.4l6.6-6.6C34.9,2.2,29.7,0,23.7,0C14.7,0,7,5.3,3.1,12.8l7.9,6C12.7,13.3,17.7,9.2,23.7,9.2z"
+            fill="#EA4335"
+          />
         </svg>
         <span className="text-gray-700 font-semibold">Sign in with Google</span>
       </button>
 
-      {/* Navigasi ke Register */}
       <p className="mt-8 text-center text-sm text-gray-600">
         Don't have an account?{" "}
         <Link to="/register" className="text-primary font-bold hover:underline">
@@ -148,5 +118,4 @@ function FormSignIn({ onSubmit }) {
     </div>
   );
 }
-
 export default FormSignIn;

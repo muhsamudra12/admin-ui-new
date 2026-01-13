@@ -9,32 +9,21 @@ import AppSnackbar from "../components/Elements/AppSnackbar";
 function signIn() {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  // State untuk notifikasi error/sukses
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
     severity: "success",
   });
 
-  const handleCloseSnackbar = () => {
-    setSnackbar((prev) => ({ ...prev, open: false }));
-  };
-
   const handleLogin = async (email, password) => {
     try {
       const response = await loginService(email, password);
-
-      // Simpan token ke context
       login(response.refreshToken);
-
-      // Arahkan ke dashboard
       navigate("/");
     } catch (err) {
-      // Tampilkan pesan error jika login gagal
       setSnackbar({
         open: true,
-        message: err.msg || "Login gagal, silakan coba lagi.",
+        message: err.msg || "Login gagal.",
         severity: "error",
       });
     }
@@ -43,18 +32,13 @@ function signIn() {
   return (
     <AuthLayout>
       <FormSignIn onSubmit={handleLogin} />
-
-      {/* Komponen Snackbar untuk menampilkan error */}
-      {snackbar.open && (
-        <AppSnackbar
-          open={snackbar.open}
-          message={snackbar.message}
-          severity={snackbar.severity}
-          onClose={handleCloseSnackbar}
-        />
-      )}
+      <AppSnackbar
+        open={snackbar.open}
+        message={snackbar.message}
+        severity={snackbar.severity}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+      />
     </AuthLayout>
   );
 }
-
 export default signIn;
