@@ -4,7 +4,7 @@ import SignUpPage from "./pages/signUp.jsx";
 import ErrorPage from "./pages/error.jsx";
 import DashboardPage from "./pages/dashboard.jsx";
 import BalancePage from "./pages/balance.jsx";
-import ExpensesPage from "./pages/expense.jsx"; // SESUAIKAN: Nama komponen harus pas
+import ExpensesPage from "./pages/expense.jsx";
 import {
   createBrowserRouter,
   Navigate,
@@ -59,7 +59,7 @@ function App() {
       ),
     },
     {
-      path: "/expense", // Path untuk menu Expenses
+      path: "/expense",
       element: (
         <RequireAuth>
           <ExpensesPage />

@@ -7,14 +7,11 @@ import CircularProgress from "@mui/material/CircularProgress";
 function CardGoal(props) {
   const { data } = props;
 
-  // Logika untuk menghitung nilai chart (persentase)
-  // Menghindari pembagian dengan nol jika data belum siap
   const chartValue =
     data && data.target_amount && data.target_amount > 0
       ? (data.present_amount / data.target_amount) * 100
       : 0;
 
-  // Konten utama yang ditampilkan jika data sudah ada
   const chartData = (
     <div className="p-2">
       <div className="flex justify-between items-center">
@@ -71,11 +68,9 @@ function CardGoal(props) {
     <Card
       title="Goals"
       desc={
-        // Jika data sedang loading (kosong), tampilkan spinner dengan teks "Loading"
         !data || Object.keys(data).length === 0 ? (
           <div className="flex flex-col justify-center items-center h-full min-h-[200px] text-primary">
             <CircularProgress color="inherit" size={50} />
-            {/* Ganti teks di bawah ini agar tidak membingungkan */}
             <span className="mt-2 text-sm text-gray-500">
               Loading Goal Data...
             </span>

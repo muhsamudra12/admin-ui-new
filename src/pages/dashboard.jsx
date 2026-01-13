@@ -28,7 +28,6 @@ function Dashboard() {
     severity: "success",
   });
 
-  // Inisialisasi dengan objek (bukan null) agar loading spinner hilang
   const [goals, setGoals] = useState({ present_amount: 0, target_amount: 0 });
 
   const handleCloseSnackbar = () => {

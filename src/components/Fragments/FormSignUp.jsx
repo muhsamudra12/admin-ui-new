@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import AppSnackbar from "../Elements/AppSnackbar";
 
-// Skema Validasi
+
 const SignupSchema = Yup.object().shape({
   name: Yup.string().required("Nama wajib diisi"),
   email: Yup.string().email("Email tidak valid").required("Email wajib diisi"),
@@ -120,7 +120,7 @@ function FormSignUp() {
                 )}
               </div>
 
-              {/* Komponen yang sebelumnya hilang (Term of Service & Checkbox) */}
+              {/* (Term of Service & Checkbox) */}
               <p className="text-xs text-gray-500 mb-5 px-1">
                 By continuing, you agree to our{" "}
                 <span className="text-teal-600 font-semibold cursor-pointer">
@@ -141,7 +141,7 @@ function FormSignUp() {
                 />
               </div>
 
-              {/* Tombol dengan status Loading.. */}
+              {/* Tombol Loading.. */}
               <Button
                 variant={`w-full text-white py-3 ${
                   isSubmitting ? "bg-gray-400" : "bg-primary"

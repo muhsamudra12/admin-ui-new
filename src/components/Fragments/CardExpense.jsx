@@ -2,7 +2,6 @@ import React from "react";
 import Icon from "../Elements/Icon";
 
 function CardExpense({ data }) {
-  // Mapping ikon berdasarkan kategori di Icon.jsx
   const getIcon = (category) => {
     const iconMap = {
       housing: <Icon.House />,
@@ -17,7 +16,7 @@ function CardExpense({ data }) {
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-5 flex flex-col gap-6 border border-gray-100">
-      {/* Bagian Header Kartu: Ikon, Nama, Persentase, Tren */}
+      {/* Bagian Header Kartu*/}
       <div className="flex justify-between items-start">
         <div className="flex gap-4">
           <div className="p-3 bg-gray-100 rounded-lg text-gray-500">
@@ -53,7 +52,7 @@ function CardExpense({ data }) {
         </div>
       </div>
 
-      {/* Bagian List Detail: Sesuai gambar dengan garis pemisah */}
+      {/* Bagian List Detail */}
       <div className="flex flex-col">
         {data.detail.map((item, idx) => (
           <div

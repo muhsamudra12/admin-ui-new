@@ -14,7 +14,6 @@ function MainLayout(props) {
   const { theme, setTheme } = useContext(ThemeContext);
   const { user, logout } = useContext(AuthContext);
 
-  // State untuk Backdrop
   const [open, setOpen] = useState(false);
 
   const username = user?.name || "User";
@@ -43,7 +42,7 @@ function MainLayout(props) {
   ];
 
   const handleLogout = async () => {
-    setOpen(true); // Tampilkan Backdrop
+    setOpen(true);
     try {
       await logoutService();
       logout();
@@ -51,20 +50,18 @@ function MainLayout(props) {
       console.error(err);
       if (err.status === 401) logout();
     } finally {
-      setOpen(false); // Sembunyikan jika gagal
+      setOpen(false);
     }
   };
 
   return (
     <div className={`flex min-h-screen ${theme.name}`}>
-      {/* IMPLEMENTASI BACKDROP SOAL 4 */}
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={open}
       >
         <div className="flex flex-col items-center">
           <CircularProgress color="inherit" size={60} />
-          {/* Tulisan Logging Out tegak/normal sesuai permintaan */}
           <p className="mt-4 text-xl font-bold tracking-widest">
             Logging Out...
           </p>

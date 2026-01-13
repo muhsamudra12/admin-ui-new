@@ -16,7 +16,6 @@ export const goalService = async () => {
       },
     });
 
-    // Mengambil objek pertama dari array data
     return response.data.data && response.data.data.length > 0
       ? response.data.data[0]
       : null;
@@ -42,8 +41,6 @@ export const expenseService = async () => {
       },
     });
 
-    // SESUAIKAN DI SINI:
-    // Karena API Anda mengembalikan array langsung, gunakan response.data
     return response.data;
   } catch (error) {
     throw {

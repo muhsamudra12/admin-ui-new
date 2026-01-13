@@ -33,7 +33,6 @@ function ExpensesPage() {
             <CircularProgress color="primary" size={80} />
           </div>
         ) : (
-          /* GRID 3 KOLOM sesuai gambar soal */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {expenses.map((categoryGroup, index) => (
               <CardExpense key={index} data={categoryGroup} />
